@@ -17,7 +17,7 @@ def shorten_url(original_url: str) -> str:
     return shortened_url
 
 def save_url_to_db(original_url: str, shortened_url: str):
-    connection = psycopg2.connect("dbname=urls user=postgres password=admin host=localhost")
+    connection = psycopg2.connect("dbname=urls user=user password=password host=localhost")
     cursor = connection.cursor()
 
     cursor.execute("INSERT INTO urls (original_url, shortened_url) VALUES (%s, %s)",
@@ -35,7 +35,7 @@ def shorten_url(url: URL):
 
 @app.get("/{shortened_url}")
 def redirect_to_original(shortened_url: str):
-    connection = psycopg2.connect("dbname=urls user=postgres password=admin host=localhost")
+    connection = psycopg2.connect("dbname=urls user=user password=password host=localhost")
     cursor = connection.cursor()
 
     ori = cursor.execute("SELECT original_url FROM urls WHERE shortened_url = %s", (shortened_url,))
